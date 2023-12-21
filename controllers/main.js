@@ -53,17 +53,22 @@ const dashboard = async(req, res) => {
   //validate the token
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    console.log(decoded);
+    // console.log(decoded);
+
+
+    // ***route response/logic **
+    const luckyNumber = Math.floor(Math.random() *100);
+
+    res.status(200).json(
+      {msg:`Hello, ${decoded.username}!`, 
+      secret:`Here is your authorized data, your lucky nuymber is ${luckyNumber}`
+    })
   } catch (error) {
     throw new CustomAPIError("Not authorized to access this route", 401)
   }
   
-  const luckyNumber = Math.floor(Math.random() *100);
+  
 
-  res.status(200).json(
-    {msg:`Hello, $USERNAME`, 
-    secret:`Here is your authorized data, your lucky nuymber is ${luckyNumber}`
-  })
 } // para probar la authorization
 
 module.exports = {
