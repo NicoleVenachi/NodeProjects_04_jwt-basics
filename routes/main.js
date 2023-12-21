@@ -8,8 +8,8 @@ const authMiddleware = require('../middleware/auth');
 const router = express.Router();
 
 // routing
-router.post('/login', login);
 router.get('/dashboard', authMiddleware, dashboard);
+router.post('/login', login);
 
 
 module.exports = router;

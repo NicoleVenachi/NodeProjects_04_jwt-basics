@@ -1,7 +1,9 @@
 
 // imports
-const CustomAPIError = require("../errors/custom-error");
 const jwt = require("jsonwebtoken");
+
+const { BadRequestError } = require("../errors");
+
 
 // if wsename and password are provided, cfreate the JWT
 const login = async (req, res) => {
@@ -13,7 +15,7 @@ const login = async (req, res) => {
   // -> a layer of validation for every requests (package JOI me ahorra esto)
   // -> o simplemente check in the controller (ver si los mandaron, en este caso)
   if (!username || !password) {
-    throw new CustomAPIError('Please provide a username or password', 400);
+    throw new BadRequestError('Please provide a username or password');
   }
 
   const id = new Date().getDate() // ya que no estamos usando la db, de momento puede ser este el id.
