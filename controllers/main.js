@@ -35,6 +35,29 @@ const login = async (req, res) => {
 
 // dashboard accesible by authenticated users (if JWT is present.)
 const dashboard = async(req, res) => {
+  
+  // access the header
+  const authHeader = req.headers.authorization;
+
+  // check if header exists
+  // cehck if it follows the patter (Bearer)
+  
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    // 401 auth error
+    throw new CustomAPIError('No token provided', 401)
+  }
+  
+  // extract the token
+  const token = authHeader.split(' ')[1];
+  
+  //validate the token
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    console.log(decoded);
+  } catch (error) {
+    throw new CustomAPIError("Not authorized to access this route", 401)
+  }
+  
   const luckyNumber = Math.floor(Math.random() *100);
 
   res.status(200).json(
